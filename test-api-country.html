@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Document</title>
+</head>
+
+<div id="responseText">
+ 
+</div>
+<body>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" type="330b8a7b3c52d0aa64634d19-text/javascript"></script>
+<script type="330b8a7b3c52d0aa64634d19-text/javascript">
+$(document).ready(function() {
+ 
+  $.getJSON('https://restcountries.com/v3.1/all', function(data) {
+    var countryData = {};
+
+    $.each(data, function(index, country) {
+      if (country.hasOwnProperty('callingCodes') && country.callingCodes.length > 0) {
+        var countryCode = country.cca2.toLowerCase();
+        var countryName = country.name.common;
+        var dialCode = '+' + country.callingCodes[0];
+
+        var pattern = '\\' + dialCode.replace('+', '\\+') + ' \\d{1,14}';
+        var defaultValue = dialCode + ' ';
+
+        countryData[countryCode] = {
+          'pattern': pattern,
+          'defaultValue': defaultValue
+        };
+      }
+    });
+
+    // Use the countryData object as needed'
+    // Logging all country codes
+var countryCodes = Object.keys(countryData);
+
+console.log('Country Codes:');
+countryCodes.forEach(function(countryCode) {
+  console.log(countryCode);
+});
+
+    console.log(countryData);
+  }).fail(function(jqXHR, textStatus, error) {01
+    console.log('Error:', error);
+  });
+});
+
+
+
+</script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="330b8a7b3c52d0aa64634d19-|49" defer></script></body>
+
+</html>
